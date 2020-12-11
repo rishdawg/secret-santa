@@ -19,6 +19,7 @@ export class SecretSantaStack extends cdk.Stack {
       runtime: Runtime.NODEJS_12_X,
       code: Code.fromAsset('lambda'),
       handler: 'secret-santa.handler',
+      timeout: cdk.Duration.seconds(15),
       environment: {
         auth: secret.secretValue.toString(),
       },
