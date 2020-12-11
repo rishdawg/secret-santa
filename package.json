@@ -5,10 +5,11 @@
     "secret-santa": "bin/secret-santa.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cdk synth",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "cdk deploy"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.32.2",
@@ -21,7 +22,10 @@
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/core": "1.32.2",
+    "@aws-cdk/aws-apigateway": "^1.32.2",
+    "@aws-cdk/aws-lambda": "^1.32.2",
+    "@aws-cdk/aws-secretsmanager": "^1.32.2",
+    "@aws-cdk/core": "^1.32.2",
     "source-map-support": "^0.5.16"
   }
 }
