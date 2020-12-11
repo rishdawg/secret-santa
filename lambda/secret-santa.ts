@@ -1,15 +1,16 @@
 
 const twilio = require('twilio');
 exports.handler = async function(event: any) {
-  const body = JSON.parse(event.body);
-  const { owner, participantsList, dateOfExchange } = body;
-  for (let i = participantsList.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [participantsList[i], participantsList[j]] = [participantsList[j], participantsList[i]];
-  }
-  const auth = JSON.parse(process.env.auth as string);
-  const { accountID, secretID, secretPassword } = auth;
-  const client = twilio(secretID, secretPassword, { accountSid: accountID });
+  try {
+    const body = JSON.parse(event.body);
+    const { owner, participantsList, dateOfExchange } = body;
+    for (let i = participantsList.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [participantsList[i], participantsList[j]] = [participantsList[j], participantsList[i]];
+    }
+    const auth = JSON.parse(process.env.auth as string);
+    const { accountID, secretID, secretPassword } = auth;
+    const client = twilio(secretID, secretPassword, { accountSid: accountID });
 
   const textMessagePromises = participantsList.map(({ name, phone}: any, index: any) => {
     const nextPerson = participantsList[index+1] ? participantsList[index+1] : participantsList[0];
@@ -20,7 +21,6 @@ exports.handler = async function(event: any) {
          to: phone
       });
   });
-  try {
     await Promise.all(textMessagePromises);
     return {
       statusCode: 200,
@@ -33,7 +33,7 @@ exports.handler = async function(event: any) {
     return {
       statusCode: 500,
       headers: { 'Access-Control-Allow-Origin': '*',},
-      body: `ok`
+      body: `oopsies there were some problems`
     };
   }
 };
